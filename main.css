@@ -78,3 +78,22 @@ p {
   margin-top: 5px;
   letter-spacing: 2px;
 }
+
+#play-again-btn {
+  font-family: "Lobster", sans-serif;
+  letter-spacing: 1px;
+  background-color: #51c8b2;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#play-again-btn:hover {
+  color: #e9b64a;
+}
