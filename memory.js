@@ -1,4 +1,4 @@
-//zmiana opakowania kart z kazda w osobnym pojemniku na wszystkie w jednym. zmniejszyc portrety i zwiekszyc ich ilosc.
+//zmiana opakowania kart z kazda w osobnym pojemniku na wszystkie w jednym. zmniejszyc portrety i zwiekszyc ich ilosc opcjonalnie
 
 var cards = ["ciri.png", "geralt.png", "jaskier.png", "jaskier.png", "iorweth.png", "triss.png", "geralt.png", "yen.png", "ciri.png", "triss.png", "yen.png", "iorweth.png"];
 
