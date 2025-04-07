@@ -5,12 +5,12 @@ var cards = ["ciri.png", "geralt.png", "jaskier.png", "jaskier.png", "iorweth.pn
 // Funkcja mieszająca elementy tablicy w losowej kolejności
 function shuffle(array)
 {
-    for (let i = array.length - 1; i > 0; i--)
-    {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+  for (let i = array.length - 1; i > 0; i--)
+  {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 var shuffledCards = shuffle(cards);
@@ -20,11 +20,11 @@ var loadedCards = [];
 
 for (var i = 0; i < 12; i++)
 {
-    loadedCards['c' + i] = document.getElementById('c' + i);
-    loadedCards['c' + i].addEventListener("click", (function (i)
-    {
-        return function () { revealCard(i); }
-    })(i));
+  loadedCards['c' + i] = document.getElementById('c' + i);
+  loadedCards['c' + i].addEventListener("click", (function (i)
+  {
+    return function () { revealCard(i); }
+  })(i));
 }
 
 
@@ -36,86 +36,95 @@ var pairsLeft = 6;
 
 function revealCard(nr)
 {
-    var opacityValue = $('#c' + nr).css('opacity');
+  var opacityValue = $('#c' + nr).css('opacity');
 
-    //alert('opacity: ' + opacityValue)
-    //alert(nr);
+  if ($('#c' + nr).hasClass('disabled') || opacityValue == 0 || lock)
+  {
+    return;
+  }
 
-    if (opacityValue != 0 && lock == false)
+  //alert('opacity: ' + opacityValue)
+  //alert(nr);
+
+  if (opacityValue != 0 && lock == false)
+  {
+    lock = true;
+
+
+    var obraz = "url(img/" + cards[nr] + ")";
+
+    $('#c' + nr).css('background-image', obraz);
+    $('#c' + nr).removeClass('card');
+    $('#c' + nr).addClass('cardA');
+    $('#c' + nr).addClass('disabled');
+
+    if (oneVisible == false)
     {
-        lock = true;
+      //first card
 
-
-        var obraz = "url(img/" + cards[nr] + ")";
-
-        $('#c' + nr).css('background-image', obraz);
-        $('#c' + nr).removeClass('card');
-        $('#c' + nr).addClass('cardA');
-
-        if (oneVisible == false)
-        {
-            //first card
-
-            oneVisible = true;
-            visible_nr = nr;
-            lock = false;
-        }
-        else
-        {
-            //second card
-
-            if (cards[visible_nr] == cards[nr])
-            {
-                //alert("para");
-                setTimeout(function () { hide2Cards(nr, visible_nr) }, 750);
-
-            }
-            else
-            {
-                //alert("pudlo");
-                setTimeout(function () { restore2Cards(nr, visible_nr) }, 1000);
-
-            }
-
-            turnCounter++;
-            $('.score').html('Turn counter: ' + turnCounter);
-            oneVisible = false;
-
-        }
+      oneVisible = true;
+      visible_nr = nr;
+      lock = false;
     }
+    else
+    {
+      //second card
+
+      if (cards[visible_nr] == cards[nr] && visible_nr != nr)
+      {
+        //alert("para");
+        setTimeout(function () { hide2Cards(nr, visible_nr) }, 750);
+
+      }
+      else
+      {
+        //alert("pudlo");
+        setTimeout(function () { restore2Cards(nr, visible_nr) }, 1000);
+
+      }
+
+      turnCounter++;
+      $('.score').html('Turn counter: ' + turnCounter);
+      oneVisible = false;
+
+    }
+  }
 
 
 }
 
 function hide2Cards(nr1, nr2)
 {
-    $('#c' + nr1).css('opacity', '0');
-    $('#c' + nr2).css('opacity', '0');
+  $('#c' + nr1).css('opacity', '0');
+  $('#c' + nr2).css('opacity', '0');
 
-    pairsLeft--;
+  pairsLeft--;
 
-    if (pairsLeft == 0)
+  if (pairsLeft == 0)
+  {
+    $('.board').html('<h1>You win!<br>Done in ' + turnCounter + ' turns</h1>');
+    $('.board').append('<button id="play-again-btn">Zagraj ponownie</button>');
+    $('#play-again-btn').on('click', function ()
     {
-        $('.board').html('<h1>You win!<br>Done in ' + turnCounter + ' turns</h1>');
-        $('.board').append('<button id="play-again-btn">Zagraj ponownie</button>');
-        $('#play-again-btn').on('click', function ()
-        {
-            window.location.reload();
-        });
-    }
+      window.location.reload();
+    });
+  }
 
-    lock = false;
+  lock = false;
 }
 
 function restore2Cards(nr1, nr2)
 {
-    $('#c' + nr1).css('background-image', 'url(img/karta.png)');
-    $('#c' + nr1).addClass('card');
-    $('#c' + nr1).removeClass('cardA');
+  $('#c' + nr1).css('background-image', 'url(img/karta.png)');
+  $('#c' + nr1).addClass('card');
+  $('#c' + nr1).removeClass('cardA');
 
-    $('#c' + nr2).css('background-image', 'url(img/karta.png)');
-    $('#c' + nr2).addClass('card');
-    $('#c' + nr2).removeClass('cardA');
+  $('#c' + nr2).css('background-image', 'url(img/karta.png)');
+  $('#c' + nr2).addClass('card');
+  $('#c' + nr2).removeClass('cardA');
 
-    lock = false;
+  $('#c' + nr1).removeClass('disabled');
+  $('#c' + nr2).removeClass('disabled');
+
+  lock = false;
 }
